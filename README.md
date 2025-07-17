@@ -1,69 +1,50 @@
-# React + TypeScript + Vite
+# Book Client Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a small React client for managing a collection of books. It is built with **React**, **TypeScript** and **Vite**.
 
-Currently, two official plugins are available:
+## Available Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The client interacts with a REST API and provides the following capabilities:
 
-## Expanding the ESLint configuration
+- Display a list of all books.
+- Create a new book with a title and author.
+- Delete a book from the list.
+- Update the read/unread status of a book.
+- Search books by title.
+- Filter books by their read status.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+These features are implemented using helper functions in [`src/apiConfig/httpService.ts`](src/apiConfig/httpService.ts):
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `getAllBooks` – fetch all books.
+- `getBookById` – fetch a specific book by ID.
+- `createBook` – add a new book.
+- `updateBookStatus` – change a book's read status.
+- `deleteBook` – remove a book.
+- `searchBook` – search books with a text query.
+- `getBooksByStatus` – fetch books filtered by status.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Server and Proxy Details
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+All HTTP requests are made to `http://localhost:3000/books`. The base URL is defined in [`src/apiConfig/httpConfig.ts`](src/apiConfig/httpConfig.ts). Because this app does not use a proxy configuration, the backend server **must** be running before the client is started, otherwise requests will fail.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Make sure the server exposes the endpoints used above on port `3000` under the `/books` path. Start the server first, then run the client.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Ensure the backend server is running at `http://localhost:3000`.
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open `http://localhost:5173` in your browser to use the app.
+
+For a production build, run `npm run build` and preview using `npm run preview`.
